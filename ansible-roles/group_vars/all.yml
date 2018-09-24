@@ -11,3 +11,6 @@ galaxy_cvmfs_repos_enabled: true
 
 
 dynmotd_custom: []
+
+miniconda_parent_dir: /opt
+miniconda_install_dir: /opt/miniconda
