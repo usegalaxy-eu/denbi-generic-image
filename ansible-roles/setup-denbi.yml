@@ -20,5 +20,5 @@
 
   post_tasks:
     - lineinfile:
-      path: /etc/environment
-      line: 'export PATH="$PATH:/opt/miniconda/bin"'
+        path: /etc/environment
+        line: 'export PATH="$PATH:/opt/miniconda/bin"'
