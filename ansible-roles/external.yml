@@ -4,5 +4,3 @@
     - "group_vars/all.yml"
 
   roles:
-    - lock-root
-    - cloudinit

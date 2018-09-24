@@ -1,0 +1,16 @@
+---
+- hosts: default
+
+  vars_files:
+    - "group_vars/all.yml"
+
+  roles:
+    - basic
+    - systemupdate
+    - dynmotd
+    - CyVerse-Ansible.singularity
+    - geerlingguy.java
+    - geerlingguy.docker
+    - cvmfs
+    - lock-root
+    - cloudinit
