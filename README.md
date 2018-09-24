@@ -1,37 +1,18 @@
-# Virtual Galaxy Compute Nodes (VGCN)
-
-This repo contains all of the components required to build the "Virtual Galaxy
-Compute Nodes" (VGCN) that make up the HTCondor cloud used in UseGalaxy.eu
-
-Pre-built images are available here: [https://usegalaxy.eu/static/vgcn/](https://usegalaxy.eu/static/vgcn/)
+# de.NBI Generic User Image
 
 ## Features
 
 All in one image, a single image gets you:
 
-- HTCondor
-- Pulsar
-- NFS
 - CVMFS
 - Singularity
 - Docker
 
-Everything you need to run Galaxy jobs. You can structure this in various ways that meet your needs:
-
-- Like useGalaxy.eu: one VM as the condor master, another N as job runners
-- Like EU's remote clusters: one VM as the condor master + pulsar, another as NFS, and the rest as job runners
-- For BYOC: A single node that does condor master + pulsar + job execution
+Everything you need
 
 ## Changelog
 
-- 31:
-    - ADDED: Puslar
-    - ADDED: Fonts for some jobs
-    - ADDED: `at` daemon
-    - MODIFIED: Additional 'internal' and 'external' targets allowing us to include signed SSH host keys.
-    - REMOVED: vault
-    - REMOVED: roced
-- 21: Initial Release
+- 1: Initial Release
 
 ## Makefile
 
@@ -45,8 +26,7 @@ Detected builders:
 Base images:
         centos-7.x-x86_64/base
 Provisioning:
-        centos-7.x-x86_64/vgcn-bwcloud
-        centos-7.x-x86_64/jenkins
+        centos-7.x-x86_64/denbi/
 ```
 
 ## Dependencies
@@ -66,9 +46,5 @@ as-is. We will provide built images, but if you wish to build them yourself,
 you'll simply want to do:
 
 ```
-make centos-7.x-x86_64/vgcn-bwcloud
+make centos-7.x-x86_64/denbi
 ```
-
-## Running It
-
-Please see https://github.com/usegalaxy-eu/terraform/ for examples of how to launch and configure this.
