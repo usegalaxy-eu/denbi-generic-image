@@ -20,5 +20,5 @@
 
   post_tasks:
     - copy:
-        content: 'export PATH="$PATH:/opt/miniconda/bin"'
+        content: 'export PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/rvm/bin:/home/centos/.local/bin:/home/centos/bin:/opt/miniconda/bin"'
         dest: /etc/environment
