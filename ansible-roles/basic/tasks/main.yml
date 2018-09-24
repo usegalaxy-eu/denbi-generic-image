@@ -50,3 +50,9 @@
 
 - name: yum-autoupdate removal
   yum: name=yum-autoupdate state=absent
+
+- name: Ensure firewalld stopped
+  service:
+    name: firewalld
+    enabled: no
+    state: stopped
