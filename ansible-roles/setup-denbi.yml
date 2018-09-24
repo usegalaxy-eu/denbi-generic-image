@@ -8,9 +8,12 @@
     - basic
     - systemupdate
     - dynmotd
+    # BEGIN
     - CyVerse-Ansible.singularity
     - geerlingguy.java
     - geerlingguy.docker
+    - andrewrothstein.miniconda
     - cvmfs
+    # END
     - lock-root
     - cloudinit
