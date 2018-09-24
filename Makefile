@@ -20,8 +20,6 @@ TEMPLATES := $(basename $(filter-out base.json,$(wildcard *.json)))
 
 BASETARGETS := $(foreach template, $(TEMPLATES), $(template)/base)
 PROVTARGETS := $(foreach template, $(TEMPLATES), $(foreach flavor, $(FLAVORS), $(template)/$(flavor)))
-INTERNALTARGETS := $(foreach template, $(TEMPLATES), $(foreach flavor, $(FLAVORS), $(template)/$(flavor)-internal))
-EXTERNALTARGETS := $(foreach template, $(TEMPLATES), $(foreach flavor, $(FLAVORS), $(template)/$(flavor)-external))
 
 PACKER_OPTS := -var-file=base.json
 ifdef DEBUG
@@ -68,42 +66,6 @@ $(foreach flav, $(FLAVORS), %/$(flav)): %/base
 	@rmdir output-$(@D)
 	@echo "** Success **"
 
-
-# Internal image version
-$(INTERNALTARGETS):
-$(foreach flav, $(FLAVORS), %/$(flav)-internal):  # bug: doesn't do deps right.
-	$(info ** Provisioning '$(@D)' with '$(@F)' **)
-	$(PACKER) build -only=$(BUILDER) \
-		$(PACKER_OPTS) \
-		-var='vm_name=$(@F)' \
-		-var='image_dir=$(@D)' \
-		-var='image_name=$(subst -internal,,$(@F))/image' \
-		-var='playbook=internal.yml' \
-		$(ANSIBLE_DIR)/run-playbook-only-internal.json
-	@test -f output-$(@D)/$(@F) || false
-	@-test -d $(@D)/$(@F) && rm -rf $(@D)/$(@F)
-	@-mkdir $(@D)/$(@F)
-	@mv output-$(@D)/$(@F) $(@D)/$(@F)/image
-	@rmdir output-$(@D)
-	@echo "** Success **"
-
-# external image version
-$(EXTERNALTARGETS):
-$(foreach flav, $(FLAVORS), %/$(flav)-external):  # bug: doesn't do deps right.
-	$(info ** Provisioning '$(@D)' with '$(@F)' **)
-	$(PACKER) build -only=$(BUILDER) \
-		$(PACKER_OPTS) \
-		-var='vm_name=$(@F)' \
-		-var='image_dir=$(@D)' \
-		-var='image_name=$(subst -external,,$(@F))/image' \
-		-var='playbook=external.yml' \
-		$(ANSIBLE_DIR)/run-playbook-only.json
-	@test -f output-$(@D)/$(@F) || false
-	@-test -d $(@D)/$(@F) && rm -rf $(@D)/$(@F)
-	@-mkdir $(@D)/$(@F)
-	@mv output-$(@D)/$(@F) $(@D)/$(@F)/image
-	@rmdir output-$(@D)
-	@echo "** Success **"
 
 help:
 	@echo "General syntax: <template>/<flavor>[/boot]"
