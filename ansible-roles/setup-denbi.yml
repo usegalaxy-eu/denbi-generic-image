@@ -6,8 +6,10 @@
 
   roles:
     - basic
+    - htcondor
     - systemupdate
     - dynmotd
+    - influxdata.chrony
     # BEGIN
     - CyVerse-Ansible.singularity
     - geerlingguy.java
@@ -19,6 +21,8 @@
     - cloudinit
 
   post_tasks:
+    - command: "usermod -a -G docker centos"
+    - command: "usermod -a -G condor centos"
     - copy:
         content: 'export PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/rvm/bin:/home/centos/.local/bin:/home/centos/bin:/opt/miniconda/bin"'
         dest: /etc/environment
