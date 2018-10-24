@@ -1,7 +1,6 @@
 ---
-vg_build: 1
 # This will be replaced by jenkins.
-build_tag:  denbi-v##-j##-##-branch
+build_tag:  denbi-j##-##-branch
 
 java_packages:
  - java-1.8.0-openjdk
