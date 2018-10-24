@@ -23,6 +23,7 @@
     - nfs-utils
     - "@development"
     - jq
+    - pdsh
     # Fonts
     - dejavu-fonts-common
     - dejavu-sans-fonts
@@ -37,6 +38,11 @@
     - urw-fonts
     - xorg-x11-font-utils
     - at
+    - perl-Digest-SHA
+    - telnet
+    - python-pip
+    - wget
+    - perl-Digest-MD5
 
 - name: Ensure services are enabled + started
   systemd:
@@ -51,8 +57,26 @@
 - name: yum-autoupdate removal
   yum: name=yum-autoupdate state=absent
 
-- name: Ensure firewalld stopped
-  service:
-    name: firewalld
-    enabled: no
-    state: stopped
+# https://www.freedesktop.org/software/systemd/man/journald.conf.html#Storage=
+# The "auto" option defaults to dropping data if a magic directory doesn't
+# exist. We switch this to persistent because that's the desired behaviour.
+- name: Fix journald default
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    line: "Storage=persistent"
+    regexp: "^.*Storage=.*"
+
+- name: Upload utils
+  copy:
+    src: '{{ item }}'
+    dest: '/usr/bin/{{ item }}'
+    mode: 0755
+    owner: root
+    group: root
+  with_items:
+    - colordiff
+    - timestamped
+
+- name: Install ranger
+  pip:
+    name: ranger-fm

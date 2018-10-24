@@ -5,8 +5,9 @@ import sys
 import hashlib
 
 
-def colored(num, value):
-    return '\x1b[38;5;{0}m{1}\x1b[0m'.format(num, value)
+def colored(num, value, bg=False):
+    x = 48 if bg else 38
+    return '\x1b[{0};5;{1}m{2}\x1b[0m'.format(x, num, value)
 
 
 class Iden:
@@ -21,25 +22,22 @@ class Iden:
         m = 6 + abs(2-x) * 5 + y
         return int(h[m:m+1], 16) % 2 == 0
 
-    def getIcon(self, text):
-        m = hashlib.md5()
-        m.update(text.encode('UTF-8'))
-        hash_string = m.hexdigest()
-        num = int(hash_string[0:2], 16)
-
+    def getIcon(self, num, hash_string):
         for x in self.build(hash_string):
             yield ''.join([
                 colored(num, '██') if q else
-                colored((num + 10) % 255, '██')
+                colored((num + 15) % 255, '  ', bg=True)
                 for q in x
             ])
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        data = sys.argv[1]
-    else:
-        data = sys.stdin.read()
+    data = sys.stdin.read().strip()
 
-    for line in Iden().getIcon(data):
+    m = hashlib.sha256()
+    m.update(data.encode('UTF-8'))
+    hash_string = m.hexdigest()
+    num = int(hash_string[0:2], 16)
+
+    for line in Iden().getIcon(num, hash_string):
         print(line)

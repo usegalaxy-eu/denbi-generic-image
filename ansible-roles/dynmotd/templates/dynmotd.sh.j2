@@ -1,18 +1,24 @@
 #!/bin/bash
-icon="$(hostname -f | /usr/bin/identicon)"
+data=$(hostname -f)
+icon="$(echo "$data" | /usr/bin/identicon)"
+# deNBI colours
+color1="\033[38;5;25m"
+color2="\033[38;5;39m"
+clear="\033[0m"
 
 line() {
 	head -n $1 | tail -n 1
 }
 
-echo -e " 
-\033[38;5;25m      _       \033[38;5;39m _   _ ____ _____ \x1b[0m
-\033[38;5;25m     | |      \033[38;5;39m| \ | |  _ \_   _|\x1b[0m $(line 1 <<< "$icon")
-\033[38;5;25m   __| | ___  \033[38;5;39m|  \| | |_) || |  \x1b[0m $(line 2 <<< "$icon")
-\033[38;5;25m  / _' |/ _ \ \033[38;5;39m| . ' |  _ < | |  \x1b[0m $(line 3 <<< "$icon")
-\033[38;5;25m | (_| |  __/_\033[38;5;39m| |\  | |_) || |_ \x1b[0m $(line 4 <<< "$icon")
-\033[38;5;25m  \__,_|\___(_)\033[38;5;39m_| \_|____/_____|\x1b[0m $(line 5 <<< "$icon")
-====================================================
+
+
+echo -e "${color1}      _       ${color2} _   _ ____ _____ ${clear}"
+echo -e "${color1}     | |      ${color2}| \ | |  _ \_   _|${clear} $(line 1 <<< "$icon")"
+echo -e "${color1}   __| | ___  ${color2}|  \| | |_) || |  ${clear} $(line 2 <<< "$icon")"
+echo -e "${color1}  / _' |/ _ \ ${color2}| . ' |  _ < | |  ${clear} $(line 3 <<< "$icon")"
+echo -e "${color1} | (_| |  __/_${color2}| |\  | |_) || |_ ${clear} $(line 4 <<< "$icon")"
+echo -e "${color1}  \__,_|\___(_)${color2}_| \_|____/_____|${clear} $(line 5 <<< "$icon")"
+echo "====================================================
 Hostname..........: `hostname -f`
 Release...........: {{ ansible_distribution }} Linux release {{ ansible_distribution_version }} ({{ ansible_distribution_release }})
 Build.............: de.NBI Generic {{ build_tag }}
